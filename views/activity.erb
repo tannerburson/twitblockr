@@ -1,0 +1,29 @@
+<h2><span class="twit">Twit</span>Blockr Activity Log</h2>
+
+<p class="info embed">
+	<ul id="activity_list">
+<%
+list.each do |entry|
+%>
+		<li class="log_entry" id="log<%=entry.id%>">
+			<% if entry.follower.nil? && !entry.data.nil?%>
+			<span class="date"><%=entry.created_at.strftime("%m/%d/%Y %I:%M%p")%></span><span class="message"><%=summarize(entry.data)%></span>
+			<% else %>
+			<span class="date"><%=entry.created_at.strftime("%m/%d/%Y %I:%M%p")%></span>
+			<span class="message <%= entry.entry_type %>">
+				<%= case entry.entry_type.to_sym
+					when :block; "Blocked"
+					when :leave; "Allowed"
+					when :follow; "Allowed"
+					when :watch; "Recommend watching"
+				    end
+				%> 
+				 follower: <a href="http://<%=hostname%>/score/<%= entry.follower %>"><%=entry.follower%></a>
+			</span>
+			<% end %>
+		</li>
+<%
+end
+%>
+	</ul>
+</p>

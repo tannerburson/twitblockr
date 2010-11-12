@@ -1,0 +1,48 @@
+<h2><span class="twit">Twit</span>Blockr Settings</h2>
+<p class="message"><%= flash[:message] %></p>
+<script type="text/javascript" src="/js/ZeroClipboard.js"></script>
+<% 
+if user.email.nil?
+%>
+<p class="info embed">Welcome to <span class="twit">Twit</span>Blockr!  Here's what you need to do to complete the setup: </p>
+<p class="info embed">
+Copy the <span class="twit">Twit</span>Blockr address below. (There is a handy button next to it to send it straight to your clipboard!). Go to <a href="http://twitter.com/account/settings" target="_blank">your twitter settings page</a> and set that as your twitter email address.</p>
+<p class="info embed">
+Now enter whatever email address you want your messages sent to, check the other settings, hit save and you're done!</p>
+
+<p class="info embed">
+We will now be able to filter your follower notifications, and block the <span class="twit">Twits</span> for you!</p>
+<%
+else
+%>
+<p class="info embed">
+You're all setup! You can check your <span class="twit">Twit</span>Blocker <a href="/activity">activity log</a> to see what's going on, or wait for your email notifications!</p>
+</p>
+<%
+end
+%>
+<fieldset>
+<form method="post" action="/profile" id="frm_profile">
+<label for=""><span class="twit">Twit</span>Blockr Address:</label><input type="text" class="text" id="twit_addr" value="<%= user.key_hash %>@<%=hostname%>" readonly> <div id="icon_copy" style="display: inline"><img src="/img/page_white_copy.png" /></div><br class="clear"/>
+<%= errors_for(:email) %>
+<label for="email">Your Email Address:</label><input type="text" class="text" name="email" value="<%= value_of(:email) || @user.email %>"/><br class="clear"/>
+<%= errors_for(:deliver) %>
+<label for="delivery">Email Delivery:</label>
+<input type="checkbox" name="digest" value="true" id="digest" <%= "checked" if @user.digest %>/><em>Weekly Digest</em><br/>
+<input type="checkbox" name="realtime" value="true" class="right" id="realtime" <%= "checked" if @user.realtime %>/><em>Send Non-<span class="twit">Twit</span> Messages</em><br class="clear"/><br/>
+<%= errors_for(:autofollow) %>
+<label for="autofollow">Enable Auto Follow?:</label><input type="checkbox" class="checkbox" name="autofollow" value="true" <%="checked" if @user.autofollow == true%>/><br class="clear"/>
+<input type="submit" name="submit" class="right button" value="Save"/>
+</form>
+</fieldset>
+<script>
+$(document).ready(function(){
+	ZeroClipboard.setMoviePath( 'http://<%=hostname%>/img/ZeroClipboard.swf' );
+	var clip = new ZeroClipboard.Client();
+	clip.setHandCursor(true);
+	clip.glue('icon_copy');
+	clip.addEventListener( 'onMouseDown', function(client) {
+		client.setText($('#twit_addr').val());
+	});
+});
+</script>

@@ -1,0 +1,5 @@
+The code for the now defunct http://twitblockr.naturalzesty.com.
+
+An app to block twitter followers based on the automated follower emails. Runs heuristics across the new user to try and determine whether the user is a spam account or not. Also had the ability to auto-follow any followers marked as not spam. 
+
+Sinatra out front, and Ruby + Beanstalkd in the back.

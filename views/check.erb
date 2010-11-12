@@ -1,0 +1,24 @@
+<h2>Spam check for <a href="http://twitter.com/<%=user%>"><%=user%></a></h2>
+<h3>Score: <span class="<%=action_for(score)%>"><%= score %></a></h3>
+
+<h3>Scoring Breakdown</h3>
+<ul>
+  <% failures.each do |f| %>
+	<li class="left"><span class="points"><%="+" if f.score > 0 %><%=f.score%></span><span class="descr"><%=f.name%></span>
+  <% end %></li>
+</ul>
+<h3>Recommended action:</h3>
+  <p class="action">
+<%= 
+case action_for(score).to_sym
+when :block
+  "Block.  This user is most likely a spammer based on the above criteria."
+when :watch
+  "Monitor.  This user meets a few criteria of a spammer, but may be legitimate.  Use your own discretion here."
+when :leave
+  "Let them be.  This user is most likely legitimate, or a thoroughly interesting spammer.  Probably worth keeping around."
+end %>
+  </p>
+</p>
+<br/><br/>
+<p class="note">This may not match the score shown in your activity log.  This check is done real-time, but the activity log shows the status when they followed you.</p>
